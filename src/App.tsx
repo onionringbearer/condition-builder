@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Condition from "./components/condition";
+import { Operators } from "./types/operator";
 
-function App() {
+const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main className="app">
+      <header className="header">
+        <h1>Condition Builder</h1>
+        <Condition
+          fields={["name"]}
+          operators={Object.values(Operators)}
+          onChange={(condition) => console.log(condition)}
+        />
       </header>
-    </div>
+    </main>
   );
-}
+};
 
 export default App;
