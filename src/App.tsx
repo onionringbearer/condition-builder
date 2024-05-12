@@ -1,19 +1,18 @@
+import { ThemeProvider } from "@mui/material/styles";
 import "./App.css";
-import Condition from "./components/condition";
-import { Operators } from "./types/operator";
+import ConditionBuilder from "@/components/condition-builder";
+import theme from "./theme";
 
 const App = (): JSX.Element => {
   return (
-    <main className="app">
-      <header className="header">
-        <h1>Condition Builder</h1>
-        <Condition
-          fields={["name"]}
-          operators={Object.values(Operators)}
-          onChange={(condition) => console.log(condition)}
-        />
-      </header>
-    </main>
+    <ThemeProvider theme={theme}>
+      <main className="app">
+        <header className="header">
+          <h1>Condition Builder</h1>
+        </header>
+        <ConditionBuilder />
+      </main>
+    </ThemeProvider>
   );
 };
 

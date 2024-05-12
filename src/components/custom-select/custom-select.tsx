@@ -21,7 +21,7 @@ const CustomSelect = forwardRef(
     }: Partial<CustomSelectProps>,
     ref: React.Ref<HTMLInputElement>
   ): JSX.Element => {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
       onSelectionChange?.(event.target.value);
     };
 
