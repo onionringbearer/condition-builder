@@ -12,11 +12,6 @@ const flexBox = {
   gap: "1rem",
 };
 
-const actionButtons: SxProps = {
-  display: "flex",
-  "& .MuiIconButton-root": { padding: "0.5rem 0.75rem" },
-};
-
 const orBox: SxProps = {
   display: "flex",
   padding: "0 1rem",
@@ -24,4 +19,4 @@ const orBox: SxProps = {
 
 const orText: SxProps = { fontWeight: 700, alignContent: "center" };
 
-export { flexColumnPaper, flexBox, actionButtons, orBox, orText };
+export { flexColumnPaper, flexBox, orBox, orText };

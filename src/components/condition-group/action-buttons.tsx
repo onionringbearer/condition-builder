@@ -1,11 +1,16 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import * as styles from "./styles";
 import Box from "@mui/material/Box";
+import { SxProps } from "@mui/material/styles";
+
+const actionButtons: SxProps = {
+  display: "flex",
+  "& .MuiIconButton-root": { padding: "0.5rem 0.75rem" },
+};
 
 type ActionButtonsProps = {
-  index: number;
+  forIndex: number;
   onAdd?: (index: number) => void;
   onDelete?: (index: number) => void;
 };
@@ -13,19 +18,19 @@ type ActionButtonsProps = {
 // This component could be further abstracted for full reusability,
 // but that is unnecessary overhead for our purposes.
 const ActionButtons = ({
-  index,
+  forIndex,
   onAdd,
   onDelete,
 }: ActionButtonsProps): JSX.Element => {
   const handleAddClick = (): void => {
-    onAdd?.(index);
+    onAdd?.(forIndex);
   };
 
   const handleDeleteClick = (): void => {
-    onDelete?.(index);
+    onDelete?.(forIndex);
   };
   return (
-    <Box sx={styles.actionButtons}>
+    <Box sx={actionButtons}>
       <IconButton onClick={handleAddClick} color="primary">
         <AddIcon />
       </IconButton>

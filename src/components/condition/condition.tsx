@@ -12,13 +12,12 @@ type ConditionInputsConfig = {
 };
 
 interface ConditionProps {
-  fields: string[];
-  operators: string[];
-  selectedField: string;
-  selectedOperator: string;
-  value: string;
-  config: Partial<ConditionInputsConfig>;
-  onChange: (condition: ConditionType) => void;
+  index: number;
+  initialCondition: ConditionType;
+  fields?: string[];
+  operators?: string[];
+  config?: Partial<ConditionInputsConfig>;
+  onChange?: (condition: ConditionType, index: number) => void;
 }
 
 const defaultConfig: ConditionInputsConfig = {
@@ -28,34 +27,39 @@ const defaultConfig: ConditionInputsConfig = {
 };
 
 const Condition = ({
+  index,
   fields = [],
   operators = [],
-  // Maybe better an initialValue: ConditionType or something similar.
-  // TODO: refactor
-  selectedField,
-  selectedOperator,
-  value = "",
+  initialCondition,
   config = { ...defaultConfig },
   onChange,
-}: Partial<ConditionProps>): JSX.Element => {
-  const [condition, setCondition] = useState<ConditionType>({
-    field: selectedField || fields[0] || "",
-    operator: selectedOperator || operators[0] || "",
-    value: value,
-  });
-  const fieldRef = useRef<HTMLInputElement>(null);
-  const operatorRef = useRef<HTMLInputElement>(null);
+}: ConditionProps): JSX.Element => {
+  const [condition, setCondition] = useState<ConditionType>(initialCondition);
+
+  const handleConditionChange = (newCondition: ConditionType): void => {
+    setCondition(newCondition);
+    onChange?.(newCondition, index);
+  };
 
   const handleValueChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    const newCondition: ConditionType = {
-      field: fieldRef.current?.value || condition.field,
-      operator: operatorRef.current?.value || condition.operator,
-      value: event.target.value,
-    };
-    setCondition(newCondition);
-    onChange?.(newCondition);
+    const value = event.target.value;
+    handleConditionChange({ ...condition, value });
+  };
+
+  const handleFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const field = event.target.value;
+    handleConditionChange({ ...condition, field });
+  };
+
+  const handleOperatorChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const operator = event.target.value;
+    handleConditionChange({ ...condition, operator });
   };
 
   return (
@@ -64,13 +68,13 @@ const Condition = ({
         options={fields}
         label={config.fieldLabel}
         value={condition.field}
-        ref={fieldRef}
+        onChange={handleFieldChange}
       />
       <CustomSelect
         options={operators}
         label={config.operatorLabel}
         value={condition.operator}
-        ref={operatorRef}
+        onChange={handleOperatorChange}
       />
       <TextField
         label={config.valueLabel}

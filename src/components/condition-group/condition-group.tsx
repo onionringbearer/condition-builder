@@ -7,12 +7,16 @@ import Condition from "@/components/condition";
 import * as styles from "./styles";
 import Typography from "@mui/material/Typography";
 import ActionButtons from "./action-buttons";
+import { useState } from "react";
+import nextId from "react-id-generator";
 
 type ConditionGroupProps = Pick<
   ConditionBuilderProps,
   "fields" | "operators"
 > & {
   conditions: Array<ConditionType>;
+  groupKey: string;
+  onChange?: (conditions: Array<ConditionType>, groupKey: string) => void;
 };
 
 const OrLabel = (): JSX.Element => (
@@ -24,23 +28,59 @@ const OrLabel = (): JSX.Element => (
 );
 
 const ConditionGroup = ({
+  groupKey,
   fields,
   operators,
   conditions,
+  onChange,
 }: ConditionGroupProps): JSX.Element => {
+  const [conditionGroup, setConditionGroup] =
+    useState<Array<ConditionType>>(conditions);
+
+  const handleGroupChange = (conditionGroup: Array<ConditionType>): void => {
+    setConditionGroup(conditionGroup);
+    onChange?.(conditionGroup, groupKey);
+  };
+
+  const handleAdd = (index: number): void => {
+    const newConditionGroup = [...conditionGroup];
+    newConditionGroup.splice(index + 1, 0, {
+      id: nextId(),
+      field: fields?.[0] || "",
+      operator: operators?.[0] || "",
+    });
+    handleGroupChange(newConditionGroup);
+  };
+
+  const handleDelete = (index: number): void => {
+    const newConditionGroup = [...conditionGroup];
+    newConditionGroup.splice(index, 1);
+    handleGroupChange(newConditionGroup);
+  };
+
+  const handleValueChange = (condition: ConditionType, index: number) => {
+    const newConditions = [...conditionGroup];
+    newConditions.splice(index, 1, condition);
+    handleGroupChange(newConditions);
+  };
+
   return (
     <Paper elevation={1} sx={styles.flexColumnPaper}>
-      {conditions.map((condition, index) => (
-        <Box key={index} sx={styles.flexBox}>
+      {conditionGroup.map((condition, index) => (
+        <Box key={condition.id} sx={styles.flexBox}>
           {!!index && <OrLabel />}
           <Condition
+            index={index}
             fields={fields}
             operators={operators}
-            selectedField={condition.field}
-            selectedOperator={condition.operator}
-            onChange={(condition) => console.log(condition)}
+            initialCondition={condition}
+            onChange={handleValueChange}
           />
-          <ActionButtons index={index} />
+          <ActionButtons
+            forIndex={index}
+            onAdd={handleAdd}
+            onDelete={handleDelete}
+          />
         </Box>
       ))}
     </Paper>

@@ -7,26 +7,36 @@ import AndButton from "./and-button";
 import Typography from "@mui/material/Typography";
 
 import * as styles from "./styles";
+import { useState } from "react";
+import nextId from "react-id-generator";
 
+type Conditions = Map<string, Array<ConditionType>>;
 export interface ConditionBuilderProps {
   fields?: string[];
   operators?: string[];
+  onChange?: (conditions: Conditions) => void;
 }
 
 // Remove default fields
 const defaultFields = ["name", "age"];
 const defaultOperators = Object.values(Operators);
 
-const conditions: Array<Array<ConditionType>> = [
+const mockConditions: Conditions = new Map([
   [
-    { field: "name", operator: "Equals", value: "John" },
-    { field: "age", operator: "Equals", value: "24" },
+    nextId("group-"),
+    [
+      { id: nextId(), field: "name", operator: "Equals" },
+      { id: nextId(), field: "name", operator: "Equals" },
+    ],
   ],
   [
-    { field: "name", operator: "Equals", value: "John" },
-    { field: "age", operator: "Equals", value: "24" },
+    nextId("group-"),
+    [
+      { id: nextId(), field: "name", operator: "Equals" },
+      { id: nextId(), field: "name", operator: "Equals" },
+    ],
   ],
-];
+]);
 
 const AndLabel = (): JSX.Element => (
   <Box sx={styles.andLabelBox}>
@@ -46,22 +56,52 @@ const AndConnector = (): JSX.Element => (
 const ConditionBuilder = ({
   fields = defaultFields,
   operators = defaultOperators,
+  onChange,
 }: ConditionBuilderProps): JSX.Element => {
+  const [conditions, setConditions] = useState<Conditions>(mockConditions);
+
+  const handleGroupChange = (
+    conditionGroup: Array<ConditionType>,
+    groupKey: string
+  ): void => {
+    if (!conditionGroup.length) {
+      const newConditions = new Map(conditions);
+      newConditions.delete(groupKey);
+      setConditions(newConditions);
+    } else {
+      setConditions(new Map(conditions.set(groupKey, conditionGroup)));
+    }
+    onChange?.(conditions);
+  };
+
+  const handleAdd = (): void => {
+    const newGroupKey = nextId("group-");
+    setConditions(
+      new Map(
+        conditions.set(newGroupKey, [
+          { id: nextId(), field: fields[0], operator: operators[0] },
+        ])
+      )
+    );
+    onChange?.(conditions);
+  };
+
   return (
     <>
-      {conditions.map((conditionGroup, index) => (
-        <Box>
+      {[...conditions.keys()].map((key, index) => (
+        <Box key={key}>
           {!!index && <AndConnector />}
           <ConditionGroup
-            key={index}
+            groupKey={key}
             fields={fields}
             operators={operators}
-            conditions={conditionGroup}
+            conditions={conditions.get(key) || []}
+            onChange={handleGroupChange}
           />
           <VerticalLine />
         </Box>
       ))}
-      <AndButton />
+      <AndButton onClick={handleAdd} />
     </>
   );
 };
