@@ -10,33 +10,13 @@ import * as styles from "./styles";
 import { useState } from "react";
 import nextId from "react-id-generator";
 
-type ConditionsMap = Map<string, Array<ConditionType>>;
+export type ConditionsMap = Map<string, Array<ConditionType>>;
 export interface ConditionBuilderProps {
-  fields?: string[];
-  operators?: string[];
+  fields: string[];
+  operators: string[];
   onChange?: (conditions: ConditionsMap) => void;
 }
-
-// Remove default fields
-const defaultFields = ["name", "age"];
 const defaultOperators = Object.values(Operators);
-
-const mockConditions: ConditionsMap = new Map([
-  [
-    nextId("group-"),
-    [
-      { id: nextId(), field: "name", operator: "Equals" },
-      { id: nextId(), field: "name", operator: "Equals" },
-    ],
-  ],
-  [
-    nextId("group-"),
-    [
-      { id: nextId(), field: "name", operator: "Equals" },
-      { id: nextId(), field: "name", operator: "Equals" },
-    ],
-  ],
-]);
 
 const AndLabel = (): JSX.Element => (
   <Box sx={styles.andLabelBox}>
@@ -53,12 +33,25 @@ const AndConnector = (): JSX.Element => (
   </>
 );
 
+const useInitialCondition = (
+  fields: string[],
+  operators: string[]
+): ConditionsMap => {
+  return new Map([
+    [
+      nextId("group-"),
+      [{ id: nextId(), field: fields[0] || "", operator: operators[0] || "" }],
+    ],
+  ]);
+};
+
 const ConditionBuilder = ({
-  fields = defaultFields,
+  fields,
   operators = defaultOperators,
   onChange,
 }: ConditionBuilderProps): JSX.Element => {
-  const [conditions, setConditions] = useState<ConditionsMap>(mockConditions);
+  const initialCondition = useInitialCondition(fields, operators);
+  const [conditions, setConditions] = useState<ConditionsMap>(initialCondition);
 
   const handleConditionsChange = (conditions: ConditionsMap): void => {
     setConditions(conditions);
