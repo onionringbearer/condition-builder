@@ -1,2 +1,5 @@
-export { default } from "./condition-builder";
-export { type ConditionBuilderProps } from "./condition-builder";
+export {
+  default,
+  type ConditionBuilderProps,
+  type ConditionsMap,
+} from "./condition-builder";

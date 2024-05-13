@@ -1,4 +1,4 @@
-import { UrlRegex } from "@/utils/constants";
+import { UrlRegex } from "@/utils/regex";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 
@@ -26,6 +26,7 @@ const UrlTextField = ({
   tip = "",
   errorMessage = "",
   onChange,
+  ...rest
 }: UrlTextFieldProps): JSX.Element => {
   const [url, setUrl] = useState("");
   const [helperText, setHelperText] = useState(tip);
@@ -57,6 +58,7 @@ const UrlTextField = ({
       helperText={helperText}
       error={error}
       onChange={handleUrlChange}
+      {...rest}
     />
   );
 };

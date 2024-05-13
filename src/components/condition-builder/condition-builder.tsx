@@ -13,7 +13,7 @@ import nextId from "react-id-generator";
 export type ConditionsMap = Map<string, Array<ConditionType>>;
 export interface ConditionBuilderProps {
   fields: string[];
-  operators: string[];
+  operators?: string[];
   onChange?: (conditions: ConditionsMap) => void;
 }
 const defaultOperators = Object.values(Operators);
