@@ -10,7 +10,7 @@ const App = (): JSX.Element => {
         <header className="header">
           <h1>Condition Builder</h1>
         </header>
-        <ConditionBuilder />
+        <ConditionBuilder onChange={console.log} />
       </main>
     </ThemeProvider>
   );

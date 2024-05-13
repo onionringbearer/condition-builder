@@ -10,18 +10,18 @@ import * as styles from "./styles";
 import { useState } from "react";
 import nextId from "react-id-generator";
 
-type Conditions = Map<string, Array<ConditionType>>;
+type ConditionsMap = Map<string, Array<ConditionType>>;
 export interface ConditionBuilderProps {
   fields?: string[];
   operators?: string[];
-  onChange?: (conditions: Conditions) => void;
+  onChange?: (conditions: ConditionsMap) => void;
 }
 
 // Remove default fields
 const defaultFields = ["name", "age"];
 const defaultOperators = Object.values(Operators);
 
-const mockConditions: Conditions = new Map([
+const mockConditions: ConditionsMap = new Map([
   [
     nextId("group-"),
     [
@@ -58,32 +58,35 @@ const ConditionBuilder = ({
   operators = defaultOperators,
   onChange,
 }: ConditionBuilderProps): JSX.Element => {
-  const [conditions, setConditions] = useState<Conditions>(mockConditions);
+  const [conditions, setConditions] = useState<ConditionsMap>(mockConditions);
+
+  const handleConditionsChange = (conditions: ConditionsMap): void => {
+    setConditions(conditions);
+    onChange?.(conditions);
+  };
 
   const handleGroupChange = (
     conditionGroup: Array<ConditionType>,
     groupKey: string
   ): void => {
+    let newConditions: ConditionsMap;
     if (!conditionGroup.length) {
-      const newConditions = new Map(conditions);
+      newConditions = new Map(conditions);
       newConditions.delete(groupKey);
-      setConditions(newConditions);
     } else {
-      setConditions(new Map(conditions.set(groupKey, conditionGroup)));
+      newConditions = new Map(conditions.set(groupKey, conditionGroup));
     }
-    onChange?.(conditions);
+    handleConditionsChange(newConditions);
   };
 
   const handleAdd = (): void => {
     const newGroupKey = nextId("group-");
-    setConditions(
-      new Map(
-        conditions.set(newGroupKey, [
-          { id: nextId(), field: fields[0], operator: operators[0] },
-        ])
-      )
+    const newConditions = new Map(
+      conditions.set(newGroupKey, [
+        { id: nextId(), field: fields[0], operator: operators[0] },
+      ])
     );
-    onChange?.(conditions);
+    handleConditionsChange(newConditions);
   };
 
   return (
