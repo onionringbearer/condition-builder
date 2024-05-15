@@ -26,10 +26,11 @@ const comparisonFunctions: ComparisonFunctions = {
     value: Primitive,
     data: Dataset
   ): [Dataset, Dataset] => {
+    console.log(field, value, data);
     return ArrayUtils.filter(
       data,
       (row) =>
-        row[field].toString().toLowerCase() === value.toString().toLowerCase()
+        row[field]?.toString().toLowerCase() === value.toString().toLowerCase()
     );
   },
 
@@ -56,7 +57,7 @@ const comparisonFunctions: ComparisonFunctions = {
   ): [Dataset, Dataset] => {
     return ArrayUtils.filter(data, (row) =>
       row[field]
-        .toString()
+        ?.toString()
         .toLowerCase()
         .includes(value.toString().toLowerCase())
     );
@@ -71,7 +72,7 @@ const comparisonFunctions: ComparisonFunctions = {
       data,
       (row) =>
         !row[field]
-          .toString()
+          ?.toString()
           .toLowerCase()
           .includes(value.toString().toLowerCase())
     );
@@ -83,7 +84,7 @@ const comparisonFunctions: ComparisonFunctions = {
     data: Dataset
   ): [Dataset, Dataset] => {
     const regex = new RegExp(value.toString());
-    return ArrayUtils.filter(data, (row) => regex.test(row[field].toString()));
+    return ArrayUtils.filter(data, (row) => regex.test(row[field]?.toString()));
   },
 };
 

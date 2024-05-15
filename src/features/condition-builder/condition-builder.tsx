@@ -7,18 +7,13 @@ import { default as Builder } from "@/components/condition-builder";
 import { invalidUrlMessage, urlInputTip } from "./constants";
 import useGetFilteredData from "./useGetFilteredData";
 import { ConditionsMap } from "@/core/types/condition";
-import { GridColDef } from "@mui/x-data-grid";
-import { Dataset } from "@/core/types/utility";
+import ResultsTable from "@/components/results-table";
 
 const addressBarStyles: SxProps = {
   marginBottom: "2rem",
 };
 
-type ConditionBuilderProps = {
-  onChange?: (conditions: ConditionsMap) => void;
-};
-
-const ConditionBuilder = ({ onChange }: ConditionBuilderProps): JSX.Element => {
+const ConditionBuilder = (): JSX.Element => {
   const [url, setUrl] = useState<string>("");
   const [conditions, setConditions] = useState<ConditionsMap>(new Map());
   const { data } = useGetData(url);
@@ -31,14 +26,6 @@ const ConditionBuilder = ({ onChange }: ConditionBuilderProps): JSX.Element => {
   const fields: string[] | null = useMemo(() => {
     return data?.length ? Object.keys(data[0]) : null;
   }, [data]);
-
-  const columns: GridColDef[] = useMemo(() => {
-    return fields ? fields.map((field) => ({ field: field })) : [];
-  }, [fields]);
-
-  const rows: Dataset = useMemo(() => {
-    return filteredData || [];
-  }, [filteredData]);
 
   const handleChange = (conditions: ConditionsMap): void => {
     setConditions(conditions);
@@ -55,7 +42,11 @@ const ConditionBuilder = ({ onChange }: ConditionBuilderProps): JSX.Element => {
         onChange={handleUrlChange}
       />
       {fields && <Builder fields={fields} onChange={handleChange} />}
-      {filteredData && <pre>{JSON.stringify(filteredData, null, 2)}</pre>}
+      <ResultsTable
+        results={filteredData}
+        fields={fields}
+        total={data?.length || 0}
+      ></ResultsTable>
     </Box>
   );
 };
