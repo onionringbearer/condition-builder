@@ -1,13 +1,14 @@
+import { Dataset } from "@/types/utility";
 import { useEffect, useState } from "react";
 
 type UseGetDataReturnType = {
-  data: Record<string, unknown>[] | null;
+  data: Dataset | null;
   isLoading: boolean;
   isError: boolean;
 };
 
 const useGetData = (url: string): UseGetDataReturnType => {
-  const [data, setData] = useState<Record<string, unknown>[] | null>(null);
+  const [data, setData] = useState<Dataset | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 

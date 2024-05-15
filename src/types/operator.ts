@@ -4,7 +4,17 @@ export enum Operators {
   LessThan = "Less Than",
   Contains = "Contains",
   NotContains = "Not Contains",
-  Regex = "Starts With",
+  Regex = "Regex",
 }
 
-export type Operator = keyof typeof Operators;
+export enum MyOperators {
+  Equals = "Equals",
+  GreaterThan = "Greater Than",
+  LessThan = "Less Than",
+  Contains = "Contains",
+  NotContains = "Not Contains",
+  Regex = "Regex",
+  LongerThan = "Longer Than",
+}
+
+export type Operator = Uncapitalize<keyof typeof Operators>;

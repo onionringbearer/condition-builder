@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { Operators } from "@/types/operator";
-import { ConditionType } from "@/types/condition";
+import { ConditionType, ConditionsMap } from "@/types/condition";
 import ConditionGroup from "@/components/condition-group";
 import VerticalLine from "@/components/vertical-line";
 import AndButton from "./and-button";
@@ -10,12 +10,12 @@ import * as styles from "./styles";
 import { useState } from "react";
 import nextId from "react-id-generator";
 
-export type ConditionsMap = Map<string, Array<ConditionType>>;
 export interface ConditionBuilderProps {
   fields: string[];
   operators?: string[];
   onChange?: (conditions: ConditionsMap) => void;
 }
+
 const defaultOperators = Object.values(Operators);
 
 const AndLabel = (): JSX.Element => (

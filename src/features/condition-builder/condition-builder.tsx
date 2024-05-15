@@ -3,11 +3,10 @@ import UrlTextField from "@/components/url-textfield";
 import Box from "@mui/material/Box";
 import { SxProps } from "@mui/material/styles";
 import { useMemo, useState } from "react";
-import {
-  default as Builder,
-  ConditionsMap,
-} from "@/components/condition-builder";
+import { default as Builder } from "@/components/condition-builder";
 import { invalidUrlMessage, urlInputTip } from "./constants";
+import useGetFilteredData from "../../hooks/useGetFilteredData";
+import { ConditionsMap } from "@/types/condition";
 
 const addressBarStyles: SxProps = {
   marginBottom: "2rem",
@@ -19,7 +18,9 @@ type ConditionBuilderProps = {
 
 const ConditionBuilder = ({ onChange }: ConditionBuilderProps): JSX.Element => {
   const [url, setUrl] = useState<string>("");
+  const [conditions, setConditions] = useState<ConditionsMap>(new Map());
   const { data } = useGetData(url);
+  const { filteredData } = useGetFilteredData(data, conditions);
 
   const handleUrlChange = (url: string): void => {
     setUrl(url);
@@ -28,6 +29,10 @@ const ConditionBuilder = ({ onChange }: ConditionBuilderProps): JSX.Element => {
   const fields: string[] | null = useMemo(() => {
     return data?.length ? Object.keys(data[0]) : null;
   }, [data]);
+
+  const handleChange = (conditions: ConditionsMap): void => {
+    setConditions(conditions);
+  };
 
   return (
     <Box>
@@ -39,7 +44,8 @@ const ConditionBuilder = ({ onChange }: ConditionBuilderProps): JSX.Element => {
         sx={addressBarStyles}
         onChange={handleUrlChange}
       />
-      {fields && <Builder fields={fields} onChange={onChange} />}
+      {fields && <Builder fields={fields} onChange={handleChange} />}
+      {filteredData && <pre>{JSON.stringify(filteredData, null, 2)}</pre>}
     </Box>
   );
 };
