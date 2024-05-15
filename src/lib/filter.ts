@@ -1,8 +1,8 @@
-import { OperatorKeys } from "@/constants/operators";
-import { Comparator } from "@/types/comparator";
-import { ConditionsMap } from "@/types/condition";
-import { Operators } from "@/types/operator";
-import { Dataset } from "@/types/utility";
+import { OperatorKeys } from "@/core/constants/operators";
+import { Comparator } from "@/core/types/comparator";
+import { ConditionsMap } from "@/core/types/condition";
+import { Operators } from "@/core/types/operator";
+import { Dataset } from "@/core/types/utility";
 
 const filterDataset = (
   data: Dataset,

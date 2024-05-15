@@ -1,4 +1,4 @@
-import { ConditionType } from "@/types/condition";
+import { ConditionType } from "@/core/types/condition";
 import { ConditionBuilderProps } from "@/components/condition-builder";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -6,7 +6,7 @@ import Condition from "@/components/condition";
 
 import * as styles from "./styles";
 import Typography from "@mui/material/Typography";
-import ActionButtons from "./action-buttons";
+import ActionButtons from "./components/action-buttons";
 import { useState } from "react";
 import nextId from "react-id-generator";
 

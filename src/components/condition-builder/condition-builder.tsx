@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
-import { Operators } from "@/types/operator";
-import { ConditionType, ConditionsMap } from "@/types/condition";
+import { Operators } from "@/core/types/operator";
+import { ConditionType, ConditionsMap } from "@/core/types/condition";
 import ConditionGroup from "@/components/condition-group";
 import VerticalLine from "@/components/vertical-line";
-import AndButton from "./and-button";
+import AndButton from "./components/and-button";
 import Typography from "@mui/material/Typography";
 
 import * as styles from "./styles";

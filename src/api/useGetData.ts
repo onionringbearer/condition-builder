@@ -1,4 +1,4 @@
-import { Dataset } from "@/types/utility";
+import { Dataset } from "@/core/types/utility";
 import { useEffect, useState } from "react";
 
 type UseGetDataReturnType = {

@@ -1,4 +1,4 @@
-import { UrlRegex } from "@/utils/regex";
+import { UrlRegex } from "@/lib/utils/regex";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 

@@ -1,4 +1,4 @@
-import { Operator, Operators } from "@/types/operator";
+import { Operator, Operators } from "@/core/types/operator";
 
 const OperatorKeys: { [key in Operators]: Operator } = {
   [Operators.Equals]: "equals",

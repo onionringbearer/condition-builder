@@ -1,8 +1,8 @@
-import { Dataset } from "@/types/utility";
+import { Dataset } from "@/core/types/utility";
 import { useCallback, useEffect, useState } from "react";
-import filterDataset from "../features/condition-builder/filter";
-import ConditionComparator from "../features/condition-builder/comparator";
-import { ConditionsMap } from "@/types/condition";
+import filterDataset from "@/lib/filter";
+import ConditionComparator from "@/lib/comparator";
+import { ConditionsMap } from "@/core/types/condition";
 
 const useGetFilteredData = (
   data: Dataset | null,

@@ -5,8 +5,8 @@ import { SxProps } from "@mui/material/styles";
 import { useMemo, useState } from "react";
 import { default as Builder } from "@/components/condition-builder";
 import { invalidUrlMessage, urlInputTip } from "./constants";
-import useGetFilteredData from "../../hooks/useGetFilteredData";
-import { ConditionsMap } from "@/types/condition";
+import useGetFilteredData from "./useGetFilteredData";
+import { ConditionsMap } from "@/core/types/condition";
 
 const addressBarStyles: SxProps = {
   marginBottom: "2rem",

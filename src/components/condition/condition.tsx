@@ -1,6 +1,6 @@
 import CustomSelect from "@/components/custom-select";
-import { ConditionType } from "@/types/condition";
-import { useRef, useState } from "react";
+import { ConditionType } from "@/core/types/condition";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { conditionBox } from "./styles";

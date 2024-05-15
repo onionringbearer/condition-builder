@@ -1,12 +1,12 @@
-import { ConditionType } from "@/types/condition";
+import { ConditionType } from "@/core/types/condition";
 import {
   Comparator,
   CompareFunction,
   ComparisonFunctions,
-} from "@/types/comparator";
-import { Dataset, Primitive } from "@/types/utility";
-import ArrayUtils from "@/utils/arrays";
-import { Operator } from "@/types/operator";
+} from "@/core/types/comparator";
+import { Dataset, Primitive } from "@/core/types/utility";
+import ArrayUtils from "@/lib/utils/arrays";
+import { Operator } from "@/core/types/operator";
 
 const compare: CompareFunction = (
   comparator: Operator,
