@@ -7,6 +7,8 @@ import { default as Builder } from "@/components/condition-builder";
 import { invalidUrlMessage, urlInputTip } from "./constants";
 import useGetFilteredData from "./useGetFilteredData";
 import { ConditionsMap } from "@/core/types/condition";
+import { GridColDef } from "@mui/x-data-grid";
+import { Dataset } from "@/core/types/utility";
 
 const addressBarStyles: SxProps = {
   marginBottom: "2rem",
@@ -29,6 +31,14 @@ const ConditionBuilder = ({ onChange }: ConditionBuilderProps): JSX.Element => {
   const fields: string[] | null = useMemo(() => {
     return data?.length ? Object.keys(data[0]) : null;
   }, [data]);
+
+  const columns: GridColDef[] = useMemo(() => {
+    return fields ? fields.map((field) => ({ field: field })) : [];
+  }, [fields]);
+
+  const rows: Dataset = useMemo(() => {
+    return filteredData || [];
+  }, [filteredData]);
 
   const handleChange = (conditions: ConditionsMap): void => {
     setConditions(conditions);

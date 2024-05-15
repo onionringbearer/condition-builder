@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import * as styles from "./styles";
 import { useState } from "react";
 import nextId from "react-id-generator";
+import useInitialCondition from "./useInitialCondition";
+import { filterEmptyConditions } from "@/lib/condition-builder/filter";
 
 export interface ConditionBuilderProps {
   fields: string[];
@@ -33,18 +35,6 @@ const AndConnector = (): JSX.Element => (
   </>
 );
 
-const useInitialCondition = (
-  fields: string[],
-  operators: string[]
-): ConditionsMap => {
-  return new Map([
-    [
-      nextId("group-"),
-      [{ id: nextId(), field: fields[0] || "", operator: operators[0] || "" }],
-    ],
-  ]);
-};
-
 const ConditionBuilder = ({
   fields,
   operators = defaultOperators,
@@ -55,7 +45,8 @@ const ConditionBuilder = ({
 
   const handleConditionsChange = (conditions: ConditionsMap): void => {
     setConditions(conditions);
-    onChange?.(conditions);
+    const validConditions = filterEmptyConditions(conditions);
+    onChange?.(validConditions);
   };
 
   const handleGroupChange = (
