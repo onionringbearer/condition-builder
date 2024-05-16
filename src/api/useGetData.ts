@@ -1,4 +1,5 @@
 import { Dataset } from "@/core/types/utility";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 type UseGetDataReturnType = {
@@ -17,21 +18,24 @@ const useGetData = (url: string): UseGetDataReturnType => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(newUrl);
-      const data = await response.json();
+      const response = await axios.get<Dataset>(newUrl);
+      const data = response.data;
       setData(data);
     } catch (error) {
+      console.error(error);
+      setData([]);
       setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   useEffect(() => {
     if (url) {
       fetchData(url);
     } else {
-      setData(null);
+      setIsError(false);
+      setData([]);
     }
   }, [url]);
 

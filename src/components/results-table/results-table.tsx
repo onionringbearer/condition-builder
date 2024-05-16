@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { PropsWithChildren, useMemo } from "react";
 
 import * as styles from "./styles";
@@ -11,9 +12,23 @@ type ResultTableProps = PropsWithChildren & {
   results: Dataset;
   fields: string[] | null;
   total: number;
+  isLoading?: boolean;
 };
 
-const ResultsTable = ({ results, fields, total }: ResultTableProps) => {
+const initialDatagridState: GridInitialStateCommunity = {
+  pagination: {
+    paginationModel: {
+      pageSize: 100,
+    },
+  },
+};
+
+const ResultsTable = ({
+  results,
+  fields,
+  total,
+  isLoading,
+}: ResultTableProps) => {
   const columns: GridColDef[] = useMemo(() => {
     return fields ? fields.map((field) => ({ field: field, flex: 1 })) : [];
   }, [fields]);
@@ -38,13 +53,8 @@ const ResultsTable = ({ results, fields, total }: ResultTableProps) => {
         rows={rows}
         columns={columns}
         sx={styles.dataGrid}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 100,
-            },
-          },
-        }}
+        loading={isLoading}
+        initialState={initialDatagridState}
         pageSizeOptions={[50, 100, 200]}
         disableRowSelectionOnClick
         disableColumnMenu

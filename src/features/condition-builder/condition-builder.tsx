@@ -1,10 +1,16 @@
 import useGetData from "@/api/useGetData";
-import UrlTextField from "@/components/url-textfield";
+import UrlTextField, {
+  UrlTextFieldErrorMessages,
+} from "@/components/url-textfield";
 import Box from "@mui/material/Box";
 import { SxProps } from "@mui/material/styles";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { default as Builder } from "@/components/condition-builder";
-import { invalidUrlMessage, urlInputTip } from "./constants";
+import {
+  invalidUrlMessage,
+  noDataFoundMessage,
+  urlInputTip,
+} from "./constants";
 import useGetFilteredData from "./useGetFilteredData";
 import { ConditionsMap } from "@/core/types/condition";
 import ResultsTable from "@/components/results-table";
@@ -13,11 +19,20 @@ const addressBarStyles: SxProps = {
   marginBottom: "2rem",
 };
 
+const errorMessages: UrlTextFieldErrorMessages = {
+  default: invalidUrlMessage,
+  responseError: noDataFoundMessage,
+};
+
 const ConditionBuilder = (): JSX.Element => {
   const [url, setUrl] = useState<string>("");
   const [conditions, setConditions] = useState<ConditionsMap>(new Map());
-  const { data } = useGetData(url);
+  const { data, isError, isLoading } = useGetData(url);
   const { filteredData } = useGetFilteredData(data, conditions);
+
+  useEffect(() => {
+    console.log(isError);
+  }, [isError]);
 
   const handleUrlChange = (url: string): void => {
     setUrl(url);
@@ -35,17 +50,21 @@ const ConditionBuilder = (): JSX.Element => {
     <Box>
       <UrlTextField
         fullWidth
+        autoFocus
         label="Url"
         tip={urlInputTip}
-        errorMessage={invalidUrlMessage}
+        responseError={isError}
+        errorMessage={errorMessages}
         sx={addressBarStyles}
         onChange={handleUrlChange}
+        inputProps={{ readOnly: isLoading }}
       />
       {fields && <Builder fields={fields} onChange={handleChange} />}
       <ResultsTable
         results={filteredData}
         fields={fields}
         total={data?.length || 0}
+        isLoading={isLoading}
       ></ResultsTable>
     </Box>
   );

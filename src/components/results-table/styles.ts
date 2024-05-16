@@ -12,6 +12,10 @@ const chipsContainer: SxProps = {
 
 const dataGrid: SxProps = {
   ".MuiDataGrid-columnSeparator": { visibility: "visible" },
+  ".MuiCircularProgress-root": {
+    width: "6.25rem !important", // MUI adds inline width and height
+    height: "6.25rem !important", // Need to override with !important
+  },
 };
 
 export { tableContainer, boldHeader, chipsContainer, dataGrid };

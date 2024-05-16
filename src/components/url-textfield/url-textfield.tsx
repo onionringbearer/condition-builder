@@ -1,12 +1,21 @@
 import { UrlRegex } from "@/lib/utils/regex";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+export type UrlTextFieldErrorMessages = {
+  default: string;
+  responseError: string;
+};
 
 type UrlTextFieldProps = Omit<TextFieldProps, "onChange"> & {
   /** The helper text to be displayed. */
   tip?: string;
   /** The error message to be displayed when the URL is invalid. Will replace `tip`.  */
-  errorMessage?: string;
+  errorMessage?: UrlTextFieldErrorMessages;
+  /** If true, the input will be marked as invalid. */
+  responseError?: boolean;
+  /** The error message to be displayed when the URL fails to produce a valid response. Will replace `tip`. */
+  responseErrorMessage?: string;
   /**
    * Callback function to be called when the URL changes.
    *
@@ -18,29 +27,46 @@ type UrlTextFieldProps = Omit<TextFieldProps, "onChange"> & {
   onChange?: (url: string) => void;
 };
 
+const defaultErrorMessages: UrlTextFieldErrorMessages = {
+  default: "Invalid URL",
+  responseError: "Failed to fetch data",
+};
+
 /**
  * An MUI textfield that validates the input as a URL.
  */
 const UrlTextField = ({
   label,
   tip = "",
-  errorMessage = "",
+  errorMessage = defaultErrorMessages,
+  responseError,
   onChange,
   ...rest
 }: UrlTextFieldProps): JSX.Element => {
-  const [url, setUrl] = useState("");
-  const [helperText, setHelperText] = useState(tip);
-  const [error, setError] = useState(false);
+  const [url, setUrl] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
 
   const validateUrl = (url: string): boolean => {
     return !url || UrlRegex.test(url);
   };
 
   useEffect(() => {
+    console.log(error);
+  }, [error]);
+
+  useEffect(() => {
     const isValidUrl = validateUrl(url);
     setError(!isValidUrl);
-    setHelperText(isValidUrl ? tip : errorMessage);
-  }, [url, errorMessage, tip]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url]);
+
+  const helperText = useMemo(
+    () =>
+      (responseError && errorMessage.responseError) ||
+      (error && errorMessage.default) ||
+      tip,
+    [responseError, error, errorMessage, tip]
+  );
 
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newUrl = event.target.value.trim();
@@ -56,7 +82,7 @@ const UrlTextField = ({
       label={label}
       value={url}
       helperText={helperText}
-      error={error}
+      error={error || responseError}
       onChange={handleUrlChange}
       {...rest}
     />
