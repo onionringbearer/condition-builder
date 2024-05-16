@@ -1,6 +1,6 @@
 import CustomSelect from "@/components/custom-select";
 import { ConditionType, ValidatorFunction } from "@/core/types/condition";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { conditionBox } from "./styles";

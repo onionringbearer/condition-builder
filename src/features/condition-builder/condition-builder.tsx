@@ -4,7 +4,7 @@ import UrlTextField, {
 } from "@/components/url-textfield";
 import Box from "@mui/material/Box";
 import { SxProps } from "@mui/material/styles";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { default as Builder } from "@/components/condition-builder";
 import {
   invalidUrlMessage,
@@ -31,10 +31,6 @@ const ConditionBuilder = (): JSX.Element => {
   const { data, isError, isLoading } = useGetData(url);
   const { filteredData } = useGetFilteredData(data, conditions);
 
-  useEffect(() => {
-    console.log(isError);
-  }, [isError]);
-
   const handleUrlChange = (url: string): void => {
     setUrl(url);
   };
@@ -60,7 +56,7 @@ const ConditionBuilder = (): JSX.Element => {
         onChange={handleUrlChange}
         inputProps={{ readOnly: isLoading }}
       />
-      {fields && (
+      {!isLoading && fields && (
         <Builder
           fields={fields}
           onChange={handleChange}
