@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@mui/material/styles";
 import "./App.css";
 import theme from "./theme";
-import DemoPage from "./pages/demo";
+import ConditionBuilder from "@/features/condition-builder";
 
 const App = (): JSX.Element => {
   return (
@@ -10,7 +10,7 @@ const App = (): JSX.Element => {
         <header className="header">
           <h1>Condition Builder</h1>
         </header>
-        <DemoPage />
+        <ConditionBuilder />
       </main>
     </ThemeProvider>
   );

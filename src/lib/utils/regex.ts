@@ -3,3 +3,6 @@
 // or a library like `check-valid-url`.
 export const UrlRegex =
   /^(https?:)(\/\/\/?)[\w\-_]+\.[\w\-_]+\.[\w\-_]+(\/[\w\-_#.]*)*$/i;
+
+export const escapeRegex = (str: string): string =>
+  str.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");

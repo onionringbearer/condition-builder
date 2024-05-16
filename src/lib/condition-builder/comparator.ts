@@ -39,7 +39,12 @@ const comparisonFunctions: ComparisonFunctions = {
     value: Primitive,
     data: Dataset
   ): [Dataset, Dataset] => {
-    return ArrayUtils.filter(data, (row) => row[field] > value);
+    return ArrayUtils.filter(
+      data,
+      (row) =>
+        !!row[field] &&
+        parseInt(row[field].toString()) > parseInt(value.toString())
+    );
   },
 
   lessThan: (
@@ -47,7 +52,12 @@ const comparisonFunctions: ComparisonFunctions = {
     value: Primitive,
     data: Dataset
   ): [Dataset, Dataset] => {
-    return ArrayUtils.filter(data, (row) => row[field] < value);
+    return ArrayUtils.filter(
+      data,
+      (row) =>
+        !!row[field] &&
+        parseInt(row[field].toString()) < parseInt(value.toString())
+    );
   },
 
   contains: (
@@ -83,8 +93,21 @@ const comparisonFunctions: ComparisonFunctions = {
     value: Primitive,
     data: Dataset
   ): [Dataset, Dataset] => {
-    const regex = new RegExp(value.toString());
-    return ArrayUtils.filter(data, (row) => regex.test(row[field]?.toString()));
+    let success = true;
+    let result: [Dataset, Dataset] = [[], []];
+    try {
+      const regex = new RegExp(value.toString(), "i");
+      result = ArrayUtils.filter(data, (row) =>
+        regex.test(row[field]?.toString())
+      );
+    } catch (error) {
+      success = false;
+      console.error(
+        "Malformed regular expression. Waiting for user input to change the expression. Regex: ",
+        value
+      );
+    }
+    return success ? result : [data, []];
   },
 };
 

@@ -78,7 +78,7 @@ const Condition = ({
       />
       <TextField
         label={config.valueLabel}
-        value={condition.value}
+        value={condition.value || ""}
         onChange={handleValueChange}
       />
     </Box>
