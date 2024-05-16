@@ -11,6 +11,7 @@ const actionButtons: SxProps = {
 
 type ActionButtonsProps = {
   forIndex: number;
+  onGoingToAdd?: (index: number) => void;
   onAdd?: (index: number) => void;
   onDelete?: (index: number) => void;
 };
@@ -19,9 +20,18 @@ type ActionButtonsProps = {
 // but that is unnecessary overhead for our purposes.
 const ActionButtons = ({
   forIndex,
+  onGoingToAdd,
   onAdd,
   onDelete,
 }: ActionButtonsProps): JSX.Element => {
+  const handleGoingToAdd = (): void => {
+    onGoingToAdd?.(forIndex);
+  };
+
+  const handleFinishAdding = (): void => {
+    onGoingToAdd?.(-1);
+  };
+
   const handleAddClick = (): void => {
     onAdd?.(forIndex);
   };
@@ -31,7 +41,12 @@ const ActionButtons = ({
   };
   return (
     <Box sx={actionButtons}>
-      <IconButton onClick={handleAddClick} color="primary">
+      <IconButton
+        onClick={handleAddClick}
+        onMouseEnter={handleGoingToAdd}
+        onMouseLeave={handleFinishAdding}
+        color="primary"
+      >
         <AddIcon />
       </IconButton>
       <IconButton onClick={handleDeleteClick} color="warning">
