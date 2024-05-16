@@ -12,7 +12,7 @@ import nextId from "react-id-generator";
 
 type ConditionGroupProps = Pick<
   ConditionBuilderProps,
-  "fields" | "operators"
+  "fields" | "operators" | "validator"
 > & {
   conditions: Array<ConditionType>;
   groupKey: string;
@@ -32,6 +32,7 @@ const ConditionGroup = ({
   fields,
   operators,
   conditions,
+  validator,
   onChange,
 }: ConditionGroupProps): JSX.Element => {
   const [conditionGroup, setConditionGroup] =
@@ -74,6 +75,7 @@ const ConditionGroup = ({
             fields={fields}
             operators={operators}
             initialCondition={condition}
+            validator={validator}
             onChange={handleValueChange}
           />
           <ActionButtons

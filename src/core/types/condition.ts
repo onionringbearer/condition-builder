@@ -7,3 +7,7 @@ export type ConditionType = {
 };
 
 export type ConditionsMap = Map<string, Array<ConditionType>>;
+
+export type ValidatorFunction = (
+  condition: ConditionType
+) => [valid: boolean, message: string];

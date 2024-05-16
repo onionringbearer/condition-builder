@@ -1,1 +1,1 @@
-export { default } from "./condition";
+export { default, type ConditionInputsConfig } from "./condition";

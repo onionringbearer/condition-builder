@@ -1,6 +1,10 @@
 import Box from "@mui/material/Box";
 import { Operators } from "@/core/types/operator";
-import { ConditionType, ConditionsMap } from "@/core/types/condition";
+import {
+  ConditionType,
+  ConditionsMap,
+  ValidatorFunction,
+} from "@/core/types/condition";
 import ConditionGroup from "@/components/condition-group";
 import VerticalLine from "@/components/vertical-line";
 import AndButton from "./components/and-button";
@@ -15,6 +19,14 @@ import { filterEmptyConditions } from "@/lib/condition-builder/filter";
 export interface ConditionBuilderProps {
   fields: string[];
   operators?: string[];
+  /**
+   * A function that validates the condition passed. If the condition is invalid,
+   * the function should return a tuple with the first element as `false`
+   * and the second element as the error message.
+   *
+   * @type `ValidatorFunction = (condition: ConditionType) => [valid: boolean, message: string]`
+   */
+  validator?: ValidatorFunction;
   onChange?: (conditions: ConditionsMap) => void;
 }
 
@@ -38,6 +50,7 @@ const AndConnector = (): JSX.Element => (
 const ConditionBuilder = ({
   fields,
   operators = defaultOperators,
+  validator,
   onChange,
 }: ConditionBuilderProps): JSX.Element => {
   const initialCondition = useInitialCondition(fields, operators);
@@ -83,6 +96,7 @@ const ConditionBuilder = ({
             fields={fields}
             operators={operators}
             conditions={conditions.get(key) || []}
+            validator={validator}
             onChange={handleGroupChange}
           />
           <VerticalLine />

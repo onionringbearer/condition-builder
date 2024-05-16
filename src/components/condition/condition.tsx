@@ -1,11 +1,11 @@
 import CustomSelect from "@/components/custom-select";
-import { ConditionType } from "@/core/types/condition";
-import { useState } from "react";
+import { ConditionType, ValidatorFunction } from "@/core/types/condition";
+import { useEffect, useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { conditionBox } from "./styles";
 
-type ConditionInputsConfig = {
+export type ConditionInputsConfig = {
   fieldLabel: string;
   operatorLabel: string;
   valueLabel: string;
@@ -17,6 +17,7 @@ interface ConditionProps {
   fields?: string[];
   operators?: string[];
   config?: Partial<ConditionInputsConfig>;
+  validator?: ValidatorFunction;
   onChange?: (condition: ConditionType, index: number) => void;
 }
 
@@ -32,9 +33,14 @@ const Condition = ({
   operators = [],
   initialCondition,
   config = { ...defaultConfig },
+  validator: validate,
   onChange,
 }: ConditionProps): JSX.Element => {
   const [condition, setCondition] = useState<ConditionType>(initialCondition);
+
+  const [isValid, helperText] = useMemo(() => {
+    return validate ? validate(condition) : [true, ""];
+  }, [condition, validate]);
 
   const handleConditionChange = (newCondition: ConditionType): void => {
     setCondition(newCondition);
@@ -79,6 +85,8 @@ const Condition = ({
       <TextField
         label={config.valueLabel}
         value={condition.value || ""}
+        helperText={helperText}
+        error={!isValid}
         onChange={handleValueChange}
       />
     </Box>

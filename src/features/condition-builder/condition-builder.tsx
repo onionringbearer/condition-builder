@@ -14,6 +14,7 @@ import {
 import useGetFilteredData from "./useGetFilteredData";
 import { ConditionsMap } from "@/core/types/condition";
 import ResultsTable from "@/components/results-table";
+import validator from "./validator";
 
 const addressBarStyles: SxProps = {
   marginBottom: "2rem",
@@ -59,7 +60,13 @@ const ConditionBuilder = (): JSX.Element => {
         onChange={handleUrlChange}
         inputProps={{ readOnly: isLoading }}
       />
-      {fields && <Builder fields={fields} onChange={handleChange} />}
+      {fields && (
+        <Builder
+          fields={fields}
+          onChange={handleChange}
+          validator={validator}
+        />
+      )}
       <ResultsTable
         results={filteredData}
         fields={fields}

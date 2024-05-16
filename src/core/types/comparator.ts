@@ -16,4 +16,10 @@ export type CompareFunction = (
   data: Dataset
 ) => [Dataset, Dataset];
 
-export type Comparator = { compare: CompareFunction };
+export type Comparator = {
+  /**
+   * @returns `[matched, unmatched]` tuple where `matched` is the array of matched items
+   * and `unmatched` is the array of items that did not match the condition.
+   */
+  compare: CompareFunction;
+};

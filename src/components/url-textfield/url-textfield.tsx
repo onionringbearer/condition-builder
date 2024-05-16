@@ -51,10 +51,6 @@ const UrlTextField = ({
   };
 
   useEffect(() => {
-    console.log(error);
-  }, [error]);
-
-  useEffect(() => {
     const isValidUrl = validateUrl(url);
     setError(!isValidUrl);
     // eslint-disable-next-line react-hooks/exhaustive-deps
