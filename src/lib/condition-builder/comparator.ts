@@ -107,7 +107,7 @@ const comparisonFunctions: ComparisonFunctions = {
         value
       );
     }
-    return success ? result : [data, []];
+    return success ? result : [[], data];
   },
 };
 
