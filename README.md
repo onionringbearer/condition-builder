@@ -1,46 +1,42 @@
-# Getting Started with Create React App
+Welcome to my version of the challenge.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+All requirements have been met, and some extra details have been considered and accounted for. I look forward to discussing the approach.
 
-## Available Scripts
+### Some known issues
 
-In the project directory, you can run:
+1. The data in the table has no format.
 
-### `npm start`
+   <b>Potential solution:</b>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+   a) Add a formatter function prop to the result-table that will be ran before using the data to create the table. The constraint here is that we don't know the fields in advanced, so we can't (cleanly) leverage the data grid config object for that formatting.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. Fields with objects or arrays as values in the data fetched will not show up properly in the table. Parsing the data received becomes necessary for this:
 
-### `npm test`
+   <b>Potential solution:</b>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   a) For arrays - Join their values and show them as comma separated.
 
-### `npm run build`
+   b) For objects - Approach 1: flatten the response so that all objects within become a set of primitive fields. 2) Show grouped columns in the table and grouped fields in the condition field dropdown.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Enhancements for a production version
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Unit tests and integration tests.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. The ability to delete all conditions at once.
 
-### `npm run eject`
+3. The ability to click on the "Total" and "Filtered" chips above the table to toggle what the Results table show.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+4. Refactor note: parametrize the operators in the condition-builder component so that any host of the component can change the operators shown. This includes allowing the ability to pass another version of the comparisonFunctions that matches the new operators. All that should be supported by finishing the abstraction of operators and comparisonFunctions (the foundation is laid).
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Running the app
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+On the base folder, run
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`npm i` and then `npm start`.
 
-## Learn More
+Runs the app in the development mode.
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+###
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+_This app was created using Node v21.7.1 and npm v10.5.0._
