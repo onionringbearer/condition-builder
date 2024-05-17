@@ -1,28 +1,17 @@
 import useGetData from "@/api/useGetData";
-import UrlTextField, {
-  UrlTextFieldErrorMessages,
-} from "@/components/url-textfield";
+import UrlTextField from "@/components/url-textfield";
 import Box from "@mui/material/Box";
 import { SxProps } from "@mui/material/styles";
 import { useMemo, useState } from "react";
 import { default as Builder } from "@/components/condition-builder";
-import {
-  invalidUrlMessage,
-  noDataFoundMessage,
-  urlInputTip,
-} from "./constants";
+import { errorMessages, urlInputTip } from "./config";
 import useGetFilteredData from "./useGetFilteredData";
 import { ConditionsMap } from "@/core/types/condition";
 import ResultsTable from "@/components/results-table";
-import validator from "./validator";
+import validator from "./helpers/validator";
 
 const addressBarStyles: SxProps = {
   marginBottom: "2rem",
-};
-
-const errorMessages: UrlTextFieldErrorMessages = {
-  default: invalidUrlMessage,
-  responseError: noDataFoundMessage,
 };
 
 const ConditionBuilder = (): JSX.Element => {
@@ -64,6 +53,7 @@ const ConditionBuilder = (): JSX.Element => {
         />
       )}
       <ResultsTable
+        title="Results"
         results={filteredData}
         fields={fields}
         total={data?.length || 0}

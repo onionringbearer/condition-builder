@@ -9,6 +9,7 @@ import { PropsWithChildren, useMemo } from "react";
 import * as styles from "./styles";
 
 type ResultTableProps = PropsWithChildren & {
+  title?: string;
   results: Dataset;
   fields: string[] | null;
   total: number;
@@ -24,6 +25,7 @@ const initialDatagridState: GridInitialStateCommunity = {
 };
 
 const ResultsTable = ({
+  title,
   results,
   fields,
   total,
@@ -42,9 +44,11 @@ const ResultsTable = ({
 
   return (
     <Box sx={styles.tableContainer}>
-      <Typography variant="h5" sx={styles.boldHeader}>
-        Result
-      </Typography>
+      {title && (
+        <Typography variant="h5" sx={styles.boldHeader}>
+          {title}
+        </Typography>
+      )}
       <Box sx={styles.chipsContainer}>
         <Chip label={totalLabel} />
         <Chip label={filteredLabel} color="primary" />
