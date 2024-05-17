@@ -10,13 +10,13 @@ All requirements have been met, and some extra details have been considered and 
 
    a) Add a formatter function prop to the result-table that will be ran before using the data to create the table. The constraint here is that we don't know the fields in advanced, so we can't (cleanly) leverage the data grid config object for that formatting.
 
-2. Fields with objects or arrays as values in the data fetched will not show up properly in the table. Parsing the data received becomes necessary for this:
+2. Fields with objects or arrays as values in the data fetched will not show up properly in the table. Parsing the data received becomes necessary for this.
 
    <b>Potential solution:</b>
 
    a) For arrays - Join their values and show them as comma separated.
 
-   b) For objects - Approach 1: flatten the response so that all objects within become a set of primitive fields. 2) Show grouped columns in the table and grouped fields in the condition field dropdown.
+   b) For objects - Approach 1: flatten the response so that all objects within become a set of primitive fields. Approach 2: Show grouped columns in the table and grouped fields in the condition field dropdown.
 
 ### Enhancements for a production version
 
