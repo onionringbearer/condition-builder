@@ -14,7 +14,7 @@ import * as styles from "./styles";
 import { useState } from "react";
 import nextId from "react-id-generator";
 import useInitialCondition from "./useInitialCondition";
-import { filterEmptyConditions } from "@/lib/condition-builder/filter";
+import filterEmptyConditions from "./helpers/filterEmptyConditions";
 
 export interface ConditionBuilderProps {
   fields: string[];

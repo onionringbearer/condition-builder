@@ -1,7 +1,9 @@
 import { ThemeProvider } from "@mui/material/styles";
 import "./App.css";
 import theme from "./theme";
+import validator from "@/lib/condition-builder/validator";
 import ConditionBuilder from "@/features/condition-builder";
+import datasetFilter from "@/lib/condition-builder/filter";
 
 const App = (): JSX.Element => {
   return (
@@ -10,7 +12,7 @@ const App = (): JSX.Element => {
         <header className="header">
           <h1>Condition Builder</h1>
         </header>
-        <ConditionBuilder />
+        <ConditionBuilder datasetFilter={datasetFilter} validator={validator} />
       </main>
     </ThemeProvider>
   );

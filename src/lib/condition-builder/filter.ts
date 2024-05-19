@@ -1,10 +1,11 @@
 import { OperatorKeys } from "@/core/constants/operators";
 import { Comparator } from "@/core/types/comparator";
 import { ConditionsMap } from "@/core/types/condition";
+import { DatasetFilter } from "@/core/types/filter";
 import { Operators } from "@/core/types/operator";
 import { Dataset } from "@/core/types/utility";
 
-const filterDataset = (
+const datasetFilter: DatasetFilter = (
   data: Dataset,
   conditions: ConditionsMap,
   comparator: Comparator
@@ -29,15 +30,4 @@ const filterDataset = (
   return conditions.size ? result : data;
 };
 
-const filterEmptyConditions = (conditions: ConditionsMap): ConditionsMap => {
-  const validConditions: ConditionsMap = new Map();
-  conditions.forEach((conditionGroup, key) => {
-    const validGroup = conditionGroup.filter((condition) => !!condition.value);
-    if (validGroup.length) {
-      validConditions.set(key, validGroup);
-    }
-  });
-  return validConditions;
-};
-
-export { filterDataset as default, filterEmptyConditions };
+export default datasetFilter;

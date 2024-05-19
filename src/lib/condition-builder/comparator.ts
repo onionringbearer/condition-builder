@@ -26,7 +26,6 @@ const comparisonFunctions: ComparisonFunctions = {
     value: Primitive,
     data: Dataset
   ): [Dataset, Dataset] => {
-    console.log(field, value, data);
     return ArrayUtils.filter(
       data,
       (row) =>

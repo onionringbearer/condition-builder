@@ -6,19 +6,27 @@ import { useMemo, useState } from "react";
 import { default as Builder } from "@/components/condition-builder";
 import { errorMessages, urlInputTip } from "./config";
 import useGetFilteredData from "./useGetFilteredData";
-import { ConditionsMap } from "@/core/types/condition";
+import { ConditionsMap, ValidatorFunction } from "@/core/types/condition";
 import ResultsTable from "@/components/results-table";
-import validator from "./helpers/validator";
+import { DatasetFilter } from "@/core/types/filter";
 
 const addressBarStyles: SxProps = {
   marginBottom: "2rem",
 };
 
-const ConditionBuilder = (): JSX.Element => {
+type ConditionBuilderProps = {
+  datasetFilter: DatasetFilter;
+  validator?: ValidatorFunction;
+};
+
+const ConditionBuilder = ({
+  datasetFilter,
+  validator,
+}: ConditionBuilderProps): JSX.Element => {
   const [url, setUrl] = useState<string>("");
   const [conditions, setConditions] = useState<ConditionsMap>(new Map());
   const { data, isError, isLoading } = useGetData(url);
-  const { filteredData } = useGetFilteredData(data, conditions);
+  const { filteredData } = useGetFilteredData(data, conditions, datasetFilter);
 
   const handleUrlChange = (url: string): void => {
     setUrl(url);
