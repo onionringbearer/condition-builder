@@ -1,5 +1,5 @@
+import { Operators } from "@/core/constants/operators";
 import { ConditionType, ValidatorFunction } from "@/core/types/condition";
-import { Operators } from "@/core/types/operator";
 
 const numericFieldMessage = "Please enter a valid number for better results.";
 

@@ -9,10 +9,13 @@ import useGetFilteredData from "./useGetFilteredData";
 import { ConditionsMap, ValidatorFunction } from "@/core/types/condition";
 import ResultsTable from "@/components/results-table";
 import { DatasetFilter } from "@/core/types/filter";
+import { Operators } from "@/core/constants/operators";
 
 const addressBarStyles: SxProps = {
   marginBottom: "2rem",
 };
+
+const operators = Object.values(Operators);
 
 type ConditionBuilderProps = {
   datasetFilter: DatasetFilter;
@@ -56,6 +59,7 @@ const ConditionBuilder = ({
       {!isLoading && fields && (
         <Builder
           fields={fields}
+          operators={operators}
           onChange={handleChange}
           validator={validator}
         />

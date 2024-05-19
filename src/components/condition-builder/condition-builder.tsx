@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { Operators } from "@/core/types/operator";
 import {
   ConditionType,
   ConditionsMap,
@@ -18,7 +17,7 @@ import filterEmptyConditions from "./helpers/filterEmptyConditions";
 
 export interface ConditionBuilderProps {
   fields: string[];
-  operators?: string[];
+  operators: string[];
   /**
    * A function that validates the condition passed. If the condition is invalid,
    * the function should return a tuple with the first element as `false`
@@ -29,8 +28,6 @@ export interface ConditionBuilderProps {
   validator?: ValidatorFunction;
   onChange?: (conditions: ConditionsMap) => void;
 }
-
-const defaultOperators = Object.values(Operators);
 
 const AndLabel = (): JSX.Element => (
   <Box sx={styles.andLabelBox}>
@@ -49,7 +46,7 @@ const AndConnector = (): JSX.Element => (
 
 const ConditionBuilder = ({
   fields,
-  operators = defaultOperators,
+  operators,
   validator,
   onChange,
 }: ConditionBuilderProps): JSX.Element => {
