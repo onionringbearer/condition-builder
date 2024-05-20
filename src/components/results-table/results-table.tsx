@@ -59,7 +59,7 @@ const ResultsTable = ({
         sx={styles.dataGrid}
         loading={isLoading}
         initialState={initialDatagridState}
-        pageSizeOptions={[50, 100, 200]}
+        pageSizeOptions={[50, 100]}
         disableRowSelectionOnClick
         disableColumnMenu
       />

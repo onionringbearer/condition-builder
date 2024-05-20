@@ -22,6 +22,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 4. Refactor opportunities:
 
    a) Right now, passing a different set of operators to the condition builder component forces the host component to pass a new implementation of the datasetFilter function. Ideally, we should be able to change the operator list without having to change our version of the datasetFilter function. In short, the default operators and the datasetFilter function need decoupling.
+
    b) We need better safe typing for the comparison functions. This could be achieved by dynamically basing the comparison functions type on the operators being passed.
 
 ## Some known issues
